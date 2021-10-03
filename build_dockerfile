@@ -1,0 +1,10 @@
+FROM gcr.io/gcp-runtimes/ubuntu_18_0_4:latest
+RUN apt-get update && apt-get upgrade && apt-get install golang && apt-get install git
+ENV GHZ_VERSION=v0.103.0
+RUN git clone --depth 1 --branch ${GHZ_VERSION} https://github.com/bojand/ghz
+WORKDIR /ghz/cmd/ghz
+RUN go get -d -v
+RUN CGO_ENABLED=0 go build -o /bin/ghz
+
+COPY ./explicit_filter.proto /explicit_filter.proto
+CMD ["/sh"]
