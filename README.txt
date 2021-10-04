@@ -1,12 +1,13 @@
-docker build -t retroryan/ghz .
-docker push retroryan/ghz
-docker run -it ghz /bin/sh
-kubectl run -i --tty --rm ghz --image=retroryan/ghz --restart=Never -- sh
+ghz docker
+----------
 
+docker run -it -vYOUR_PROTO:test.proto ghcr.io/retroryan/ghz \
+  --proto=./test.proto \
+  --insecure \
+  --call=YOUR_CALL \
+  -d '{}' \
+  host:port
 
-ghz --insecure \
-  --proto ./explicit_filter.proto \
-  --call cngk.ExplicitFilter.ApplyFilter \
-  -d '{"body":"Filter This Foo Bar"}' \
-  --debug debug.json \
-  10.88.7.3:50051
+# todo:
+kubectl run -i --tty --rm ghz --image=ghcr.io/retroryan/ghz --restart=Never \
+  -- --help
